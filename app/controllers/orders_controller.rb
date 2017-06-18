@@ -11,6 +11,12 @@ class OrdersController < ApplicationController
   # GET /orders/1.json
   def show
     @food_item = FoodItem.find(@order.food_item)
+    @order = Order.find(params[:id])
+    @set_coupon = false
+
+    if @order.coupon_code = 'CODERSCHOOL'
+      @set_coupon = true
+    end
   end
 
   # GET /orders/new

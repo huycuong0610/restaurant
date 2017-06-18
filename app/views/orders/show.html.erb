@@ -1,5 +1,11 @@
-<h1>Thanks for your purchase</h1>
-
+<h1>Thanks for your order</h1>
+<%
+  @coupon_discount = 0
+  if @set_coupon = true
+    @coupon_discount = 30000
+  end
+  @total = @food_item.price * @order.qty + 20000 - @coupon_discount
+%>
 <div class="col-xs-6">
   <h3>Your Order Information</h3>
   <ul class="list-group">
@@ -11,9 +17,15 @@
       Delivery Fee
       <span class="label label-primary label-pill pull-right">VND 20,000</span>
     </li>
+    <% if @set_coupon?  %>
+      <li class="list-group-item">
+        Coupon Code
+        <span class="label label-primary label-pill pull-right">VND 30,000</span>
+      </li>
+    <% end %>
     <li class="list-group-item">
       Total price
-      <span class="label label-danger label-pill pull-right">VND <%= @food_item.price * @order.qty + 20000 %></span>
+      <span class="label label-danger label-pill pull-right">VND <%= @total %></span>
     </li>
   </ul>
 </div>

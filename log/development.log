@@ -1,0 +1,839 @@
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying PRIMARY KEY)[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying PRIMARY KEY, "value" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(5018747401584347760);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateFoodItems (20160707135130)
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE TABLE "food_items" ("id" serial primary key, "name" character varying, "description" text, "price" decimal, "section" character varying, "remote_image_url" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20160707135130"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateOrders (20160710042605)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE TABLE "orders" ("id" serial primary key, "name" character varying, "food_item" integer, "qty" integer, "email" character varying, "address" text, "phone" character varying, "coupon_code" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20160710042605"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", 2017-06-18 07:20:25 UTC], ["updated_at", 2017-06-18 07:20:25 UTC]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_advisory_unlock(5018747401584347760)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'food_items'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+  [1m[35m (2.3ms)[0m  [1m[34mSELECT t2.oid::regclass::text AS to_table, a1.attname AS column, a2.attname AS primary_key, c.conname AS name, c.confupdtype AS on_update, c.confdeltype AS on_delete
+FROM pg_constraint c
+JOIN pg_class t1 ON c.conrelid = t1.oid
+JOIN pg_class t2 ON c.confrelid = t2.oid
+JOIN pg_attribute a1 ON a1.attnum = c.conkey[1] AND a1.attrelid = t1.oid
+JOIN pg_attribute a2 ON a2.attnum = c.confkey[1] AND a2.attrelid = t2.oid
+JOIN pg_namespace t3 ON c.connamespace = t3.oid
+WHERE c.contype = 'f'
+  AND t1.relname = 'orders'
+  AND t3.nspname = ANY (current_schemas(false))
+ORDER BY c.conname
+[0m
+Started GET "/" for ::1 at 2017-06-18 14:21:10 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (3.3ms)
+Completed 200 OK in 2174ms (Views: 2165.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:21:15 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (6.2ms)
+Completed 200 OK in 44ms (Views: 36.6ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/menu?sort_by=alpha" for ::1 at 2017-06-18 14:21:18 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"sort_by"=>"alpha"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.7ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" ORDER BY name ASC[0m
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 35ms (Views: 33.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/contact_us" for ::1 at 2017-06-18 14:21:21 +0700
+Processing by HomeController#contact_us as HTML
+  Rendering home/contact_us.html.erb within layouts/application
+  Rendered home/contact_us.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 59ms (Views: 56.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2017-06-18 14:21:24 +0700
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 43ms (Views: 41.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:21:27 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 47ms (Views: 44.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/contact_us" for ::1 at 2017-06-18 14:21:28 +0700
+Processing by HomeController#contact_us as HTML
+  Rendering home/contact_us.html.erb within layouts/application
+  Rendered home/contact_us.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 40ms (Views: 37.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/contact_us" for ::1 at 2017-06-18 14:21:58 +0700
+Processing by HomeController#contact_us as HTML
+  Rendering home/contact_us.html.erb within layouts/application
+  Rendered home/contact_us.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 28ms (Views: 26.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:22:02 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 38ms (Views: 36.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/food_items?utf8=%E2%9C%93&search=&commit=Search" for ::1 at 2017-06-18 14:22:08 +0700
+Processing by FoodItemsController#index as HTML
+  Parameters: {"utf8"=>"✓", "search"=>"", "commit"=>"Search"}
+  Rendering food_items/index.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.7ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE (name ILIKE '%%')[0m
+  Rendered food_items/index.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 40ms (Views: 37.1ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/food_items/new" for ::1 at 2017-06-18 14:22:10 +0700
+Processing by FoodItemsController#new as HTML
+  Rendering food_items/new.html.erb within layouts/application
+  Rendered food_items/_form.html.erb (11.4ms)
+  Rendered food_items/new.html.erb within layouts/application (13.0ms)
+Completed 200 OK in 63ms (Views: 43.7ms | ActiveRecord: 3.4ms)
+
+
+Started POST "/food_items" for ::1 at 2017-06-18 14:23:40 +0700
+Processing by FoodItemsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"zuXPfkGAHXOjR4y803SiZ76afYL5sF2nZskeitBENARG6pFZjLuG9gTbbPbQaWMv7Zg7fP9HkxMH+Nx7VaKAdw==", "food_item"=>{"name"=>"Bun bo", "description"=>"bun bo ngon", "price"=>"300000", "section"=>"1", "remote_image_url"=>"http://lorempixel.com/400/200"}, "commit"=>"Create Food item"}
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO "food_items" ("name", "description", "price", "section", "remote_image_url", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["name", "Bun bo"], ["description", "bun bo ngon"], ["price", #<BigDecimal:7fed9837b760,'0.3E6',9(18)>], ["section", "1"], ["remote_image_url", "http://lorempixel.com/400/200"], ["created_at", 2017-06-18 07:23:40 UTC], ["updated_at", 2017-06-18 07:23:40 UTC]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/food_items/1
+Completed 302 Found in 13ms (ActiveRecord: 6.7ms)
+
+
+Started GET "/food_items/1" for ::1 at 2017-06-18 14:23:40 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (1.1ms)
+Completed 200 OK in 37ms (Views: 33.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/food_items/1/edit" for ::1 at 2017-06-18 14:23:42 +0700
+Processing by FoodItemsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering food_items/edit.html.erb within layouts/application
+  Rendered food_items/_form.html.erb (2.8ms)
+  Rendered food_items/edit.html.erb within layouts/application (4.6ms)
+Completed 200 OK in 40ms (Views: 36.9ms | ActiveRecord: 0.4ms)
+
+
+Started PATCH "/food_items/1" for ::1 at 2017-06-18 14:23:47 +0700
+Processing by FoodItemsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"CAQsKsKTCK7L648w+mWhkGWjmeXpdeA25sbPN8RR+XchboqhRjSEhXA5JwyhcqhAC70Mq3kNL1ebJ5PTgcB+lA==", "food_item"=>{"name"=>"Bun bo", "description"=>"bun bo ngon 1", "price"=>"300000.0", "section"=>"1", "remote_image_url"=>"http://lorempixel.com/400/200"}, "commit"=>"Update Food item", "id"=>"1"}
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "food_items" SET "description" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["description", "bun bo ngon 1"], ["updated_at", 2017-06-18 07:23:47 UTC], ["id", 1]]
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/food_items/1
+Completed 302 Found in 8ms (ActiveRecord: 3.2ms)
+
+
+Started GET "/food_items/1" for ::1 at 2017-06-18 14:23:47 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 39ms (Views: 36.3ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/food_items" for ::1 at 2017-06-18 14:23:50 +0700
+Processing by FoodItemsController#index as HTML
+  Rendering food_items/index.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered food_items/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 35ms (Views: 32.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:23:58 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 42ms (Views: 39.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:04 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 42ms (Views: 39.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:24:05 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 47ms (Views: 43.9ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:24:06 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.6ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 42ms (Views: 38.6ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 14:24:07 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 37ms (Views: 34.1ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:08 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.6ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 39ms (Views: 35.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:24:09 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 36ms (Views: 33.4ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:10 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 34ms (Views: 31.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:24:11 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 31ms (Views: 28.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:24:12 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 33ms (Views: 30.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 14:24:13 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 45ms (Views: 41.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:14 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 39ms (Views: 37.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:24:14 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 47ms (Views: 44.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:16 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 38ms (Views: 35.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/food_items?utf8=%E2%9C%93&search=&commit=Search" for ::1 at 2017-06-18 14:24:28 +0700
+Processing by FoodItemsController#index as HTML
+  Parameters: {"utf8"=>"✓", "search"=>"", "commit"=>"Search"}
+  Rendering food_items/index.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE (name ILIKE '%%')[0m
+  Rendered food_items/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 37ms (Views: 35.1ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/food_items/1/edit" for ::1 at 2017-06-18 14:24:30 +0700
+Processing by FoodItemsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering food_items/edit.html.erb within layouts/application
+  Rendered food_items/_form.html.erb (3.3ms)
+  Rendered food_items/edit.html.erb within layouts/application (5.2ms)
+Completed 200 OK in 36ms (Views: 33.8ms | ActiveRecord: 0.3ms)
+
+
+Started PATCH "/food_items/1" for ::1 at 2017-06-18 14:24:34 +0700
+Processing by FoodItemsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"2NwZuGIuPEoZK1aSeZXGDQdTiXEDNU7FwvpdpVCXiOTxtr8z5omwYaL5/q4igs/daU0cP5NNgaS/GwFBFQYPBw==", "food_item"=>{"name"=>"Bun bo", "description"=>"bun bo ngon 1", "price"=>"300000.0", "section"=>"Breakfast", "remote_image_url"=>"http://lorempixel.com/400/200"}, "commit"=>"Update Food item", "id"=>"1"}
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "food_items" SET "section" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["section", "Breakfast"], ["updated_at", 2017-06-18 07:24:34 UTC], ["id", 1]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/food_items/1
+Completed 302 Found in 10ms (ActiveRecord: 6.3ms)
+
+
+Started GET "/food_items/1" for ::1 at 2017-06-18 14:24:34 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (0.8ms)
+Completed 200 OK in 37ms (Views: 34.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:24:36 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 36ms (Views: 34.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:37 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 37ms (Views: 34.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:24:38 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 37ms (Views: 34.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:24:38 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 41ms (Views: 39.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 14:24:39 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 38ms (Views: 35.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:24:39 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 43ms (Views: 40.7ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/orders/new?food_id=1" for ::1 at 2017-06-18 14:24:43 +0700
+Processing by OrdersController#new as HTML
+  Parameters: {"food_id"=>"1"}
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering orders/new.html.erb within layouts/application
+  Rendered orders/_form.html.erb (4.9ms)
+  Rendered orders/new.html.erb within layouts/application (7.0ms)
+Completed 200 OK in 48ms (Views: 33.6ms | ActiveRecord: 4.2ms)
+
+
+Started POST "/orders" for ::1 at 2017-06-18 14:25:19 +0700
+Processing by OrdersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"GIiQQRSlcivVm7GOhnw95qnttNmYiu/EbEqpaSewNN+FT1Oe/vyJwDmsH2QoW7TB2dQDIaGZAkVlJRMk4447XA==", "order"=>{"name"=>"cuong", "food_item"=>"1", "qty"=>"2", "email"=>"huycuong0610@gmail.com", "address"=>"`11`", "phone"=>"0947706796", "coupon_code"=>""}, "commit"=>"Create Order"}
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "orders" ("name", "food_item", "qty", "email", "address", "phone", "coupon_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["name", "cuong"], ["food_item", 1], ["qty", 2], ["email", "huycuong0610@gmail.com"], ["address", "`11`"], ["phone", "0947706796"], ["coupon_code", ""], ["created_at", 2017-06-18 07:25:19 UTC], ["updated_at", 2017-06-18 07:25:19 UTC]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/orders/1
+Completed 302 Found in 10ms (ActiveRecord: 6.4ms)
+
+
+Started GET "/orders/1" for ::1 at 2017-06-18 14:25:19 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mOrder Load (0.3ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (0.8ms)
+Completed 200 OK in 34ms (Views: 30.8ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:26:12 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 34ms (Views: 31.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:26:13 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.6ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 36ms (Views: 33.7ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:26:14 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (9.3ms)
+Completed 200 OK in 46ms (Views: 43.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:26:15 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 46ms (Views: 43.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:26:16 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 42ms (Views: 39.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/contact_us" for ::1 at 2017-06-18 14:26:17 +0700
+Processing by HomeController#contact_us as HTML
+  Rendering home/contact_us.html.erb within layouts/application
+  Rendered home/contact_us.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 37ms (Views: 35.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/contact_us" for ::1 at 2017-06-18 14:27:37 +0700
+Processing by HomeController#contact_us as HTML
+  Rendering home/contact_us.html.erb within layouts/application
+  Rendered home/contact_us.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 33ms (Views: 31.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:27:40 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 36ms (Views: 33.5ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:27:46 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 34ms (Views: 31.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:27:46 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 38ms (Views: 35.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:27:47 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 39ms (Views: 36.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 14:27:47 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 39ms (Views: 36.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:27:49 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 38ms (Views: 35.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for ::1 at 2017-06-18 14:27:53 +0700
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.8ms)
+Completed 200 OK in 36ms (Views: 34.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 14:27:55 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 40ms (Views: 37.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:27:56 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 38ms (Views: 35.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:27:57 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 38ms (Views: 34.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:27:57 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 34ms (Views: 31.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:27:57 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 44ms (Views: 40.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 14:27:58 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 44ms (Views: 41.3ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:27:59 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (3.1ms)
+Completed 200 OK in 41ms (Views: 38.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:28:00 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.7ms)
+Completed 200 OK in 41ms (Views: 38.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:28:01 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 39ms (Views: 36.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 14:28:01 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (3.2ms)
+Completed 200 OK in 40ms (Views: 36.8ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 14:28:02 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.3ms)
+Completed 200 OK in 41ms (Views: 38.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 14:28:02 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 38ms (Views: 35.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 14:28:03 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 38ms (Views: 34.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/contact_us" for ::1 at 2017-06-18 14:28:03 +0700
+Processing by HomeController#contact_us as HTML
+  Rendering home/contact_us.html.erb within layouts/application
+  Rendered home/contact_us.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 43ms (Views: 41.1ms | ActiveRecord: 0.0ms)
+
+
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[36mOrder Load (0.6ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+Started GET "/menu" for ::1 at 2017-06-18 14:39:27 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (18.0ms)
+Completed 200 OK in 256ms (Views: 241.9ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/orders/new?food_id=1" for ::1 at 2017-06-18 14:39:31 +0700
+Processing by OrdersController#new as HTML
+  Parameters: {"food_id"=>"1"}
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering orders/new.html.erb within layouts/application
+  Rendered orders/_form.html.erb (13.6ms)
+  Rendered orders/new.html.erb within layouts/application (15.3ms)
+Completed 200 OK in 59ms (Views: 43.5ms | ActiveRecord: 2.6ms)
+
+
+Started POST "/orders" for ::1 at 2017-06-18 14:39:54 +0700
+Processing by OrdersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"cG0UeNYN6uCVfCANakQZ6braKnM5CYVmHT8HuUKCtCPtqtenPFQRC3lLjufEY5DOyuOdiwAaaOcUUL30hry7oA==", "order"=>{"name"=>"cuong", "food_item"=>"1", "qty"=>"12", "email"=>"huycuong0610@gmail.com", "address"=>"1212", "phone"=>"0947706796", "coupon_code"=>"CODERSCHOOL"}, "commit"=>"Create Order"}
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "orders" ("name", "food_item", "qty", "email", "address", "phone", "coupon_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["name", "cuong"], ["food_item", 1], ["qty", 12], ["email", "huycuong0610@gmail.com"], ["address", "1212"], ["phone", "0947706796"], ["coupon_code", "CODERSCHOOL"], ["created_at", 2017-06-18 07:39:54 UTC], ["updated_at", 2017-06-18 07:39:54 UTC]]
+  [1m[35m (5.9ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/orders/2
+Completed 302 Found in 11ms (ActiveRecord: 6.4ms)
+
+
+Started GET "/orders/2" for ::1 at 2017-06-18 14:39:54 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.1ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+Completed 500 Internal Server Error in 54ms (ActiveRecord: 0.4ms)
+
+
+  
+NoMethodError (undefined method `If' for #<OrdersController:0x007fe8bfdd9848>):
+  
+app/controllers/orders_controller.rb:17:in `show'
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.5ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.1ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.3ms)
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (108.3ms)
+Started GET "/orders/2" for ::1 at 2017-06-18 14:40:44 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (3.5ms)
+Completed 500 Internal Server Error in 30ms (ActiveRecord: 4.6ms)
+
+
+  
+ActionView::Template::Error (undefined method `chars' for #<BigDecimal:7fe8c50b26c8,'0.359E7',9(18)>):
+     5:     @coupon_discount = 30000
+     6:   end
+     7:   @total = @food_item.price * @order.qty + 20000 - @coupon_discount
+     8:   @total.chars.grep(/\d/).join.to_i
+     9: %>
+    10: <div class="col-xs-6">
+    11:   <h3>Your Order Information</h3>
+  
+app/views/orders/show.html.erb:8:in `_app_views_orders_show_html_erb__4013266188332452645_70318857355480'
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.3ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (56.4ms)
+Started GET "/orders/2" for ::1 at 2017-06-18 14:41:06 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mOrder Load (0.4ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (0.9ms)
+Completed 200 OK in 35ms (Views: 31.8ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/orders/2" for ::1 at 2017-06-18 14:44:15 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (0.9ms)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.4ms)
+
+
+  
+SyntaxError (/Users/macOS/projects/restaurant/app/views/orders/show.html.erb:25: syntax error, unexpected ';', expecting ':'
+'.freeze;     end 
+         ^):
+  
+app/views/orders/show.html.erb:25: syntax error, unexpected ';', expecting ':'
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.7ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.7ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.6ms)
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (49.6ms)
+Started GET "/orders/2" for ::1 at 2017-06-18 14:45:51 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (0.8ms)
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.4ms)
+
+
+  
+SyntaxError (/Users/macOS/projects/restaurant/app/views/orders/show.html.erb:25: syntax error, unexpected ';', expecting ':'
+'.freeze;     end 
+         ^):
+  
+app/views/orders/show.html.erb:25: syntax error, unexpected ';', expecting ':'
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.8ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.7ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.7ms)
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (49.9ms)
+Started GET "/orders/2" for ::1 at 2017-06-18 14:46:52 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.2ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (0.9ms)
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 0.4ms)
+
+
+  
+SyntaxError (/Users/macOS/projects/restaurant/app/views/orders/show.html.erb:25: syntax error, unexpected ';', expecting ':'
+'.freeze;     end 
+         ^):
+  
+app/views/orders/show.html.erb:25: syntax error, unexpected ';', expecting ':'
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.4ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.5ms)
+  Rendering /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.8ms)
+  Rendered /Users/macOS/.rvm/gems/ruby-2.3.1/gems/actionpack-5.0.0/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (51.2ms)
