@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     @set_coupon = false
 
-    if @order.coupon_code = 'CODERSCHOOL'
+    if @order.coupon_code == 'CODERSCHOOL'
       @set_coupon = true
     end
   end

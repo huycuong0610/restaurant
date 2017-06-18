@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
-
+<div class="row">
+<div class="col-md-6">
 <p>
   <strong>Name:</strong>
   <%= @food_item.name %>
@@ -15,15 +16,24 @@
   <%= @food_item.price %>
 </p>
 
+
 <p>
   <strong>Section:</strong>
   <%= @food_item.section %>
 </p>
 
 <p>
-  <strong>Remote image url:</strong>
-  <%= @food_item.remote_image_url %>
+  <strong>View:</strong>
+  <%= @food_item.view_count %>
 </p>
+</div>
 
+<div class="col-md-6">
+<%= image_tag @food_item.remote_image_url %>
+</div>
+</div>
+<p>
+<%= link_to "Create Order", new_order_path(food_id: @food_item.id), class: 'btn btn-primary btn-lg' %>
+</p>
 <%= link_to 'Edit', edit_food_item_path(@food_item) %> |
 <%= link_to 'Back', food_items_path %>

@@ -12,6 +12,8 @@ class HomeController < ApplicationController
           @sort_string = "price ASC"
       when "pricehigh"
           @sort_string = "price DESC"
+      when "mostview"
+           @sort_string = "view_count DESC" 
       else
           @sort_string = ""
       end

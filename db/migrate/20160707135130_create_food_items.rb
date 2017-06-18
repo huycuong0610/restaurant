@@ -5,6 +5,7 @@ class CreateFoodItems < ActiveRecord::Migration[5.0]
       t.text :description
       t.decimal :price
       t.string :section
+      t.integer :view_count
       t.string :remote_image_url
 
       t.timestamps

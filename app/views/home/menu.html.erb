@@ -24,7 +24,7 @@
 <div class="list-group">
 <% @food_items.each do |food_item| %>
   <button type="button" class="list-group-item food-item">
-    <%= food_item.name %>
+    <p class="card-title"><%= link_to food_item.name, food_items_path+"/#{food_item.id}" %></p>
     <span class="label label-default label-pill pull-right price-item">VND <%= food_item.price %></span>
   </button>
   <div class="card" style="display: none;">
@@ -47,7 +47,7 @@
 	    $("button.food-item").on('click', function(){
 	    	$("button.food-item").removeClass("active");
 	    	$(".card").hide();
-	    	$(this).addClass("active");
+	    	$(this).addClass("actived");
 	    	$(this).next().show();
 	    });
 	    $("#sort_by").on("change", function(){

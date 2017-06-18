@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160710042605) do
     t.text     "description"
     t.decimal  "price"
     t.string   "section"
+    t.integer  "view_count"
     t.string   "remote_image_url"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false

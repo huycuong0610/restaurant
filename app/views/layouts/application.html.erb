@@ -21,6 +21,9 @@
 	    <li class="nav-item <%= 'active' if current_page?(contact_us_path) %>">
 	    	<%= link_to "Contact Us", contact_us_path, class: 'nav-link'%>
 	    </li>
+			 <li class="nav-item <%= 'active' if current_page?(contact_us_path) %>">
+	    	<%= link_to "Food Item", food_items_path, class: 'nav-link'%>
+	    </li>
 	  </ul>
 
 		<%= form_tag(food_items_path, :method => "get", id: "search-form", class: "form-inline pull-xs-right") do %>
