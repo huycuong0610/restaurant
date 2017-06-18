@@ -1,0 +1,12 @@
+<h1>New order for <b><%= @food_item.name %></b></h1>
+<div class="card">
+  <div class="card-block">
+  <%= image_tag @food_item.image_url %>
+  <p class="list-group-item-text"><%= @food_item.description %></p>
+  </div>
+</div>
+
+<%= render 'form', order: @order %>
+
+<%= link_to 'Back', orders_path %>
+

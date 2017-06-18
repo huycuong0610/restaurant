@@ -1,0 +1,62 @@
+<h1>Menu</h1>
+<div class="menu-section">
+	<div class="btn-group All" role="group" aria-label="...">
+	  <%= link_to "All", menu_path(), class: 'btn btn-secondary'%>
+	</div>
+	<% Section.all.each do |section| %>
+		<div class="btn-group <%= section%>" role="group" aria-label="...">
+		  <%= link_to section, menu_path(section: section), class: 'btn btn-secondary'%>
+		</div>
+	<%end%>
+</div>
+
+
+<div class="sort-item">
+  <select class="form-control" id="sort_by" placehoder="Sort By">
+  	<option value="" disabled="disabled">Sort By</option>
+    <option value="alpha">Alphabetical</option>
+    <option value="pricelow">Price low to high</option>
+    <option value="pricehigh">Price high to low</option>
+    <option value="mostview">Most view</option>
+  </select>
+</div>
+
+<div class="list-group">
+<% @food_items.each do |food_item| %>
+  <button type="button" class="list-group-item food-item">
+    <%= food_item.name %>
+    <span class="label label-default label-pill pull-right price-item">VND <%= food_item.price %></span>
+  </button>
+  <div class="card" style="display: none;">
+		<div class="card-block">
+		<%= image_tag food_item.image_url %>
+		<p class="list-group-item-text"><%= food_item.description %></p>
+		</div>
+		<%= link_to "Create Order", new_order_path(food_id: food_item.id), class: 'btn btn-primary btn-lg' %>
+  </div>
+<% end %>
+</div>
+<script type="text/javascript">
+	$( document ).ready(function() {
+		$('#sort_by').val('<%= params[:sort_by]%>');
+		if('<%= params[:section]%>' == '')
+			$(".All a.btn").addClass("active");
+		else
+			$(".<%= params[:section]%> a.btn").addClass("active");
+
+	    $("button.food-item").on('click', function(){
+	    	$("button.food-item").removeClass("active");
+	    	$(".card").hide();
+	    	$(this).addClass("active");
+	    	$(this).next().show();
+	    });
+	    $("#sort_by").on("change", function(){
+	    	var val = $(this).val();
+	    	var url = "<%= menu_path(section: params[:section])%>";
+	    	if(url.indexOf("section") != -1)
+	    		window.location = url + "&sort_by=" + val; 
+	    	else
+	    		window.location = url + "?sort_by=" + val;
+	    });
+	});
+</script>
