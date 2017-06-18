@@ -2479,3 +2479,249 @@ Processing by HomeController#menu as HTML
 Completed 200 OK in 43ms (Views: 41.1ms | ActiveRecord: 0.4ms)
 
 
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 19:47:00 +0700
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (16.0ms)
+Completed 200 OK in 257ms (Views: 241.8ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/" for ::1 at 2017-06-18 19:47:15 +0700
+Processing by HomeController#index as HTML
+  Rendering home/index.html.erb within layouts/application
+  Rendered home/index.html.erb within layouts/application (0.7ms)
+Completed 200 OK in 30ms (Views: 28.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 19:47:17 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 33ms (Views: 30.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/food_items/2" for ::1 at 2017-06-18 19:47:22 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "food_items" SET "view_count" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["view_count", 2], ["updated_at", 2017-06-18 12:47:22 UTC], ["id", 2]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (0.9ms)
+Completed 200 OK in 69ms (Views: 59.0ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/food_items/2" for ::1 at 2017-06-18 19:47:24 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[33mUPDATE "food_items" SET "view_count" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["view_count", 3], ["updated_at", 2017-06-18 12:47:24 UTC], ["id", 2]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (1.1ms)
+Completed 200 OK in 44ms (Views: 38.0ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/orders/new?food_id=2" for ::1 at 2017-06-18 19:47:26 +0700
+Processing by OrdersController#new as HTML
+  Parameters: {"food_id"=>"2"}
+  [1m[36mFoodItem Load (0.8ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  Rendering orders/new.html.erb within layouts/application
+  Rendered orders/_form.html.erb (19.6ms)
+  Rendered orders/new.html.erb within layouts/application (21.6ms)
+Completed 200 OK in 92ms (Views: 76.4ms | ActiveRecord: 2.7ms)
+
+
+Started POST "/orders" for ::1 at 2017-06-18 19:47:35 +0700
+Processing by OrdersController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"qoeOW53LnloT57u71pyOjzUFw9dZrUQUJk3PicVPHuA3QE2Ed5Jlsf/QFVF4uweoRTx0L2C+qZUvInXEAXERYw==", "order"=>{"name"=>"cuong", "food_item"=>"2", "qty"=>"2", "email"=>"huycuong0610@gmail.com", "address"=>"122", "phone"=>"0947706796", "coupon_code"=>"CODERSCHOOL"}, "commit"=>"Create Order"}
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "orders" ("name", "food_item", "qty", "email", "address", "phone", "coupon_code", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["name", "cuong"], ["food_item", 2], ["qty", 2], ["email", "huycuong0610@gmail.com"], ["address", "122"], ["phone", "0947706796"], ["coupon_code", "CODERSCHOOL"], ["created_at", 2017-06-18 12:47:35 UTC], ["updated_at", 2017-06-18 12:47:35 UTC]]
+  [1m[35m (5.4ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/orders/6
+Completed 302 Found in 10ms (ActiveRecord: 5.9ms)
+
+
+Started GET "/orders/6" for ::1 at 2017-06-18 19:47:35 +0700
+Processing by OrdersController#show as HTML
+  Parameters: {"id"=>"6"}
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mFoodItem Load (0.1ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mCACHE (0.0ms)[0m  [1m[34mSELECT  "orders".* FROM "orders" WHERE "orders"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  Rendering orders/show.html.erb within layouts/application
+  Rendered orders/show.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 56ms (Views: 53.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/food_items" for ::1 at 2017-06-18 19:47:40 +0700
+Processing by FoodItemsController#index as HTML
+  Rendering food_items/index.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered food_items/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 47ms (Views: 44.5ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/food_items/1" for ::1 at 2017-06-18 19:47:42 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[33mUPDATE "food_items" SET "view_count" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["view_count", 23], ["updated_at", 2017-06-18 12:47:42 UTC], ["id", 1]]
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (0.9ms)
+Completed 200 OK in 35ms (Views: 28.2ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/food_items/1/edit" for ::1 at 2017-06-18 19:47:46 +0700
+Processing by FoodItemsController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering food_items/edit.html.erb within layouts/application
+  Rendered food_items/_form.html.erb (3.0ms)
+  Rendered food_items/edit.html.erb within layouts/application (4.4ms)
+Completed 200 OK in 42ms (Views: 36.9ms | ActiveRecord: 0.5ms)
+
+
+Started PATCH "/food_items/1" for ::1 at 2017-06-18 19:47:49 +0700
+Processing by FoodItemsController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"k8BdH2h/PuOdudvcr3BAWk70k/TttZKFgS6m2nQ7jeu6qvuU7NiyyCZrc+D0Z0mKIOoGun3NXeT8z/o+MaoKCA==", "food_item"=>{"name"=>"Bun bo", "description"=>"1221", "price"=>"40000.0", "section"=>"Breakfast", "remote_image_url"=>"http://hanhphuccuame.com/wp-content/uploads/2015/01/cach-nau-bun-bo-hue-dam-huong-vi-hue-3.jpg"}, "commit"=>"Update Food item", "id"=>"1"}
+  [1m[36mFoodItem Load (0.1ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "food_items" SET "price" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["price", #<BigDecimal:7fc1e85e2c50,'0.4E5',9(18)>], ["updated_at", 2017-06-18 12:47:49 UTC], ["id", 1]]
+  [1m[35m (5.7ms)[0m  [1m[35mCOMMIT[0m
+Redirected to http://localhost:3000/food_items/1
+Completed 302 Found in 9ms (ActiveRecord: 6.2ms)
+
+
+Started GET "/food_items/1" for ::1 at 2017-06-18 19:47:49 +0700
+Processing by FoodItemsController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mFoodItem Load (0.1ms)[0m  [1m[34mSELECT  "food_items".* FROM "food_items" WHERE "food_items"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[33mUPDATE "food_items" SET "view_count" = $1, "updated_at" = $2 WHERE "food_items"."id" = $3[0m  [["view_count", 24], ["updated_at", 2017-06-18 12:47:49 UTC], ["id", 1]]
+  [1m[35m (4.4ms)[0m  [1m[35mCOMMIT[0m
+  Rendering food_items/show.html.erb within layouts/application
+  Rendered food_items/show.html.erb within layouts/application (1.2ms)
+Completed 200 OK in 43ms (Views: 33.9ms | ActiveRecord: 4.8ms)
+
+
+Started GET "/food_items" for ::1 at 2017-06-18 19:47:52 +0700
+Processing by FoodItemsController#index as HTML
+  Rendering food_items/index.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered food_items/index.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 37ms (Views: 35.4ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/food_items/new" for ::1 at 2017-06-18 19:47:54 +0700
+Processing by FoodItemsController#new as HTML
+  Rendering food_items/new.html.erb within layouts/application
+  Rendered food_items/_form.html.erb (2.5ms)
+  Rendered food_items/new.html.erb within layouts/application (3.9ms)
+Completed 200 OK in 36ms (Views: 33.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 19:47:57 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (9.5ms)
+Completed 200 OK in 44ms (Views: 41.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Breakfast" for ::1 at 2017-06-18 19:47:58 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Breakfast"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Breakfast"]]
+  Rendered home/menu.html.erb within layouts/application (2.2ms)
+Completed 200 OK in 40ms (Views: 37.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Lunch" for ::1 at 2017-06-18 19:47:59 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Lunch"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Lunch"]]
+  Rendered home/menu.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 39ms (Views: 36.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Dinner" for ::1 at 2017-06-18 19:47:59 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Dinner"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Dinner"]]
+  Rendered home/menu.html.erb within layouts/application (2.8ms)
+Completed 200 OK in 39ms (Views: 36.5ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?section=Supper" for ::1 at 2017-06-18 19:48:00 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.5ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 41ms (Views: 38.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/menu?section=Supper&sort_by=alpha" for ::1 at 2017-06-18 19:48:02 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"section"=>"Supper", "sort_by"=>"alpha"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" WHERE "food_items"."section" = $1 ORDER BY name ASC[0m  [["section", "Supper"]]
+  Rendered home/menu.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 46ms (Views: 43.5ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu" for ::1 at 2017-06-18 19:48:03 +0700
+Processing by HomeController#menu as HTML
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items"[0m
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 38ms (Views: 36.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/menu?sort_by=alpha" for ::1 at 2017-06-18 19:48:05 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"sort_by"=>"alpha"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" ORDER BY name ASC[0m
+  Rendered home/menu.html.erb within layouts/application (4.6ms)
+Completed 200 OK in 38ms (Views: 35.6ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu?sort_by=mostview" for ::1 at 2017-06-18 19:48:08 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"sort_by"=>"mostview"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" ORDER BY view_count DESC[0m
+  Rendered home/menu.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 35ms (Views: 33.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu?sort_by=pricehigh" for ::1 at 2017-06-18 19:48:10 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"sort_by"=>"pricehigh"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.4ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" ORDER BY price DESC[0m
+  Rendered home/menu.html.erb within layouts/application (2.4ms)
+Completed 200 OK in 36ms (Views: 33.9ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/menu?sort_by=pricelow" for ::1 at 2017-06-18 19:48:12 +0700
+Processing by HomeController#menu as HTML
+  Parameters: {"sort_by"=>"pricelow"}
+  Rendering home/menu.html.erb within layouts/application
+  [1m[36mFoodItem Load (0.3ms)[0m  [1m[34mSELECT "food_items".* FROM "food_items" ORDER BY price ASC[0m
+  Rendered home/menu.html.erb within layouts/application (2.5ms)
+Completed 200 OK in 43ms (Views: 41.5ms | ActiveRecord: 0.3ms)
+
+
